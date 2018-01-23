@@ -1,11 +1,9 @@
 package com.lan.mq.service;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.time.LocalDateTime;
 
 import javax.annotation.Resource;
+import javax.jms.JMSException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,9 +22,6 @@ public class MQServiceImpl implements MQService{
 	@Value("${print.queue}")
 	private String queue;
 	
-	@Autowired
-	private ContexHolder contextHolder;
-	
 	@Override
 	public void setClass(AsyncCallBean bean) {
 		jmsQueueTemplate.send(queue, session -> session.createObjectMessage(bean));
@@ -34,28 +29,26 @@ public class MQServiceImpl implements MQService{
 	}
 
 	@Override
-	public void getClass(AsyncCallBean bean) {
-		Object targetClass = contextHolder.getBean(bean.getClazz());
-		try {
-			Object invoke = targetClass.getClass().getMethod(bean.getMethodName(), bean.getParamTypes()).invoke(targetClass, bean.getParamList());
-			System.out.println(invoke);
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (NoSuchMethodException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		System.out.println(targetClass);
+	public void getClass(AsyncCallBean bean) throws JMSException {
+		System.out.println(LocalDateTime.now().toString());
+		System.out.println(1/0);
+//		Object targetClass = contextHolder.getBean(bean.getClazz());
+//		try {
+//			System.out.println(bean);
+//			Object invoke = targetClass.getClass().getMethod(bean.getMethodName(), bean.getParamTypes()).invoke(targetClass, bean.getParamList());
+//			System.out.println(invoke);
+//			System.out.println(1/0);
+//		} catch (IllegalAccessException e) {
+//			e.printStackTrace();
+//		} catch (IllegalArgumentException e) {
+//			e.printStackTrace();
+//		} catch (InvocationTargetException e) {
+//			e.printStackTrace();
+//		} catch (NoSuchMethodException e) {
+//			e.printStackTrace();
+//		} catch (SecurityException e) {
+//			e.printStackTrace();
+//		}
 	}
 
 }

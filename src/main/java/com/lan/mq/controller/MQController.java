@@ -22,22 +22,9 @@ public class MQController {
 	
 	@RequestMapping(value = "/set", method = RequestMethod.POST)
 	public @ResponseBody String set(){
-		
-		printService.x(100);
-		
-		System.out.println(printService);
-		
-		mqService.setClass(AsyncCallBean
-			.of()
-			.setClazz(printService.getClass())
-			.setMethodName("x")
-			.setParamTypes(Integer.class)
-			.setParamList(1000));
-		
-		mqService.setClass(AsyncCallBean
-			.of()
-			.setClazz(printService.getClass())
-			.setMethodName("hello"));
+		mqService.setClass(AsyncCallBean.of()
+				.setClazz(printService.getClass())
+				.setMethodName("hello"));
 		
 		return "OK";
 	}

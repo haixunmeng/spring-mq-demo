@@ -1,18 +1,19 @@
 package com.lan.mq;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 public class AsyncCallBean implements Serializable{
 
 	private static final long serialVersionUID = 8768018331093955910L;
 
-	private Class<?> clazz;		//目标类类型
+	private Class<?> clazz;		//鐩爣绫荤被鍨�
 	
-	private String methodName;	//要调用的方法名
+	private String methodName;	//瑕佽皟鐢ㄧ殑鏂规硶鍚�
 	
-	private Class<?>[] paramTypes;	//方法参数类型列表
+	private Class<?>[] paramTypes;	//鏂规硶鍙傛暟绫诲瀷鍒楄〃
 	
-	private Object[] paramList;	//方法参数列表
+	private Object[] paramList;	//鏂规硶鍙傛暟鍒楄〃
 	
 	private AsyncCallBean(){};
 	
@@ -54,6 +55,12 @@ public class AsyncCallBean implements Serializable{
 	public AsyncCallBean setParamList(Object ...paramList) {
 		this.paramList = paramList;
 		return this;
+	}
+
+	@Override
+	public String toString() {
+		return "AsyncCallBean [clazz=" + clazz + ", methodName=" + methodName + ", paramTypes="
+				+ Arrays.toString(paramTypes) + ", paramList=" + Arrays.toString(paramList) + "]";
 	}
 	
 }
