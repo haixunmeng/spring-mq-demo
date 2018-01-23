@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration status="error">
+    <properties>  
+        <property name="LOG_HOME">/home/lan/logs/jms</property>  
+        <!-- 日志备份目录 -->  
+        <property name="INFO_BACKUP">${LOG_HOME}/info</property>  
+        <property name="ERROR_BACKUP">${LOG_HOME}/error</property>  
+        <property name="EXCEPTION_BACKUP">${LOG_HOME}/exception</property>  
+    </properties> 
+    <!--先定义所有的appender-->
+    <appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <!--控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
+            <ThresholdFilter level="error" onMatch="ACCEPT" onMismatch="DENY"/>
+            <!--输出日志的格式-->
+            <PatternLayout charset="UTF-8" pattern="%d{HH:mm:ss.SSS} %-5level %class{36} %L %M - %msg%xEx%n"/>
+        </Console>
+        <RollingFile name="InfoFile" fileName="${LOG_HOME}/info.log"
+                     filePattern="${INFO_BACKUP}/info_%d{yyyy-MM-dd}.log"
+                     bufferedIO="true" bufferSize="1024">
+            <PatternLayout charset="UTF-8" pattern="%d{yyyy-MM-dd 'at' HH:mm:ss z} - %msg%xEx%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy modulate="true" interval="1"/>
+            </Policies>
+            <DefaultRolloverStrategy max="30"/>
+        </RollingFile>
+        <RollingFile name="ErrorFile" fileName="${LOG_HOME}/error.log"
+                     filePattern="${ERROR_BACKUP}/error_%d{yyyy-MM-dd}.log"
+                     bufferedIO="true" bufferSize="1024">
+            <PatternLayout charset="UTF-8" pattern="%d{yyyy-MM-dd 'at' HH:mm:ss z} - %msg%xEx%n"/>
+             <Policies>
+                <TimeBasedTriggeringPolicy modulate="true" interval="1"/>
+            </Policies>
+            <DefaultRolloverStrategy max="30"/>
+        </RollingFile>
+        <RollingFile name="ExceptionFile" fileName="${LOG_HOME}/exception.log"
+                     filePattern="${EXCEPTION_BACKUP}/exception_%d{yyyy-MM-dd}.log"
+                     bufferedIO="true" bufferSize="1024">
+            <PatternLayout charset="UTF-8" pattern="%d{yyyy-MM-dd 'at' HH:mm:ss z} - %msg%xEx%n"/>
+             <Policies>
+                <TimeBasedTriggeringPolicy modulate="true" interval="1"/>
+            </Policies>
+            <DefaultRolloverStrategy max="30"/>
+        </RollingFile>
+    </appenders>
+    <!--然后定义logger，只有定义了logger并引入的appender，appender才会生效-->
+    <loggers>
+		 <logger name="debug" level="debug" additivity="false">
+            <appender-ref ref="InfoFile"/>
+        </logger>
+        <logger name="info" level="info" additivity="false">
+            <appender-ref ref="InfoFile"/>
+        </logger>
+        <logger name="error" level="info" additivity="false">
+            <appender-ref ref="ErrorFile"/>
+        </logger>
+        <logger name="exception" level="info" additivity="false">
+            <appender-ref ref="ExceptionFile"/>
+        </logger>
+        <!--建立一个默认的root的logger-->
+        <root level="error">
+            <appender-ref ref="Console"/>
+        </root>
+    </loggers>
+</configuration>

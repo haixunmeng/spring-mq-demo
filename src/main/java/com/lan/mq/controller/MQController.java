@@ -1,14 +1,14 @@
 package com.lan.mq.controller;
 
+import java.time.LocalDateTime;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.lan.mq.AsyncCallBean;
 import com.lan.mq.service.MQService;
-import com.lan.mq.service.PrintService;
 
 @Controller
 public class MQController {
@@ -16,16 +16,9 @@ public class MQController {
 	@Autowired
 	private MQService mqService;
 	
-	@Autowired
-	private PrintService printService;
-	
-	
-	@RequestMapping(value = "/set", method = RequestMethod.POST)
+	@RequestMapping(value = "/say-hello", method = RequestMethod.POST)
 	public @ResponseBody String set(){
-		mqService.setClass(AsyncCallBean.of()
-				.setClazz(printService.getClass())
-				.setMethodName("hello"));
-		
+		mqService.sayHello(LocalDateTime.now().toString());
 		return "OK";
 	}
 	
