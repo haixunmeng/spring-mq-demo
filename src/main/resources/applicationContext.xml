@@ -14,6 +14,10 @@
 		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
 	</context:component-scan>
 
+	<bean id="BusService" class="com.lan.mq.service.BusService" />
+
+	<import resource="classpath:spring-jta.xml" />
+	<import resource="classpath:spring-jdbc.xml" />
 	<import resource="classpath:spring-jms.xml" />
 
 </beans>
